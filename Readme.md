@@ -63,6 +63,12 @@ skimage.util.noise methods will be used to generate the noisy images.
 * [Image denoising using deep learning](https://towardsai.net/p/deep-learning/image-de-noising-using-deep-learning)
 * [Noise reduction](https://en.wikipedia.org/wiki/Noise_reduction#Removal)
 
+## Research papers
+* [Neighbor2Neighbor: Self-Supervised Denoising from Single Noisy Images](https://arxiv.org/pdf/2101.02824.pdf)
+* [Image denoising by sparse 3D transform-domain collaborative ltering](https://webpages.tuni.fi/foi/GCF-BM3D/BM3D_TIP_2007.pdf)
+* [Weighted nuclear norm minimization with application to image denoising](https://www4.comp.polyu.edu.hk/~cslzhang/paper/WNNM.pdf)
+
+
 ## Tasks
 - [x] Raw image dataset
 - [x] Generate noise functions
