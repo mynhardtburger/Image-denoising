@@ -240,6 +240,7 @@ def batch_img_compare(
     img_arr: List[npt.NDArray],
     noise_arr: List[npt.NDArray],
     noise_type_label: str,
+    denoise_func: str = "None",
 ) -> pd.DataFrame:
     """
     Calculate MSE, SSIM and PSNR for images against the provided noisy versions.
@@ -259,14 +260,19 @@ def batch_img_compare(
 
     results = []
     for img_idx, img in enumerate(tqdm(img_arr)):
-        for noisy_idx, noisy_img in enumerate(noise_arr[img_idx]):
-            metrics = img_compare(img, noisy_img)
+        for noise_idx, noise_img in enumerate(noise_arr[img_idx]):
+            metrics = img_compare(img, noise_img)
             metrics.update(
-                img_id=img_idx, noise_type=noise_type_label, measurement=noisy_idx + 1
+                img_id=img_idx,
+                noise_type=noise_type_label,
+                measurement=noise_idx + 1,
+                denoise_function=denoise_func,
             )
             results.append(metrics)
 
-    return pd.DataFrame.from_records(results, index=["img_id", "measurement"])
+    return pd.DataFrame.from_records(
+        results, index=["denoise_function", "img_id", "measurement"]
+    )
 
 
 def batch_generate_noise(
