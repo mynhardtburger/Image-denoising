@@ -3,6 +3,8 @@ from typing import Tuple
 import cv2
 import matplotlib.pyplot as plt
 import numpy.typing as npt
+import pandas as pd
+import seaborn as sns
 from mpl_toolkits.axes_grid1.inset_locator import mark_inset, zoomed_inset_axes
 
 from utils.other import img_compare
@@ -112,7 +114,11 @@ def plot_results(
     return img_compare(truth, result)
 
 
-def plot_intensity_dist(img: npt.NDArray, title: str = ""):
+def plot_intensity_dist(
+    img: npt.NDArray,
+    title: str = "",
+    ylim: Tuple[float, float] = (0, 0.02),
+):
     """
     Plot colour intensity for a single image
 
@@ -129,8 +135,36 @@ def plot_intensity_dist(img: npt.NDArray, title: str = ""):
     plt.plot(histr_b / histr_b.sum(), color="b", label="Blue")
     plt.legend()
     plt.ylabel("Frequency %")
-    plt.xlabel("Pixel intensity")
+    plt.xlabel("Pixel value")
     plt.title(title)
-    plt.ylim(bottom=0, top=0.02)
+    plt.ylim(bottom=ylim[0], top=ylim[1])
 
+    plt.show()
+
+
+def plot_scatter(
+    df: pd.DataFrame,
+    x: str,
+    y: str,
+    hue: str,
+    plot_title: str = "Scatter Plot",
+    alpha: float = 0.8,
+    ylim: Tuple[float, float] = (0, 2),
+):
+    """
+    Plot scatter plot by category hue
+
+    Args:
+        df (pd.DataFrame): data
+        x (str): x-axis
+        y (str): y-axis
+        hue (str): category to plot by
+        plot_title (str, optional): Title of plot. Defaults to "Scatter Plot".
+        alpha (float, optional): Alpha/transparency value. Defaults to 0.8.
+    """
+    plt.figure(figsize=(12, 7))
+    sns.stripplot(df, x=x, y=y, hue=hue, alpha=alpha)
+    plt.ylim(bottom=ylim[0], top=ylim[1])
+    plt.title(plot_title)
+    plt.legend()
     plt.show()
