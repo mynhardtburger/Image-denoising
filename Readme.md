@@ -1,103 +1,40 @@
-# Final LHL project
+# Image denoising
+I wanted to explore image noise and some interesting denoising methods. This was done as a final project for my Lighthouse labs datascience diploma.
+What I found that the available tools and methods is vast and this in its own right is a speciality subfield that spans many industries. I ended up exploring only a small subset of approaches, mostly drawn to those which were easy to implement and understand for a beginner like me.
 
-Image SNR boosting / denoising using multiple noisy copies of the same image
-## Goal
-Given multiple noisy copies of the same image, explore ways to extract/reconstruct/estimate the true denoised image
+The lessons I learned from this high level investigation are:
+1. There are many different types of noise with different statistical characteristics. As a result there is no single best approach.
+2. Measuring the level of noise in an image can be difficult. Different metrics prioritize different things and sometimes you don't have a true/clean image to compare your results against.
+3. Computational complexity of the approaches spans the whole gamut, from fast image smoothing methods to slow and bulky neural networks.
 
+I wish I had more time to explore techniques which can extract a clean image from multiple sources/copies (eg. image fusion). These seem to be extremely powerful but often limited to niche areas such as astrophotography.
+Why is that?  Could this approach be adapted to be more flexible?
+
+## Notebooks & results
+1. Impact of noise on color distribution profiles and generating baseline noise data: [link](./notebooks/EDA.ipynb)
+2. Testing image smoothing, non-local means and image fusion methods: [link](./notebooks/Traditional%20techniques.ipynb)
+3. Implementation of Deep Image Prior CNN: [link](./notebooks/Deep%20Image%20Prior.ipynb)
+4. Graphing of results: [link](./notebooks/Results.ipynb)
+5. Presentation slides: [link](./Presentation.pptx)
 
 ## Dataset
-[Urban 100 dataset](https://github.com/jbhuang0604/SelfExSR):
+Urban 100 dataset:
+* https://github.com/jbhuang0604/SelfExSR
 * https://uofi.box.com/shared/static/65upg43jjd0a4cwsiqgl6o6ixube6klm.zip
 * https://camo.githubusercontent.com/157add11addffa7acc9e9073e38ba386a03b906e1d9338f3944074d76e32dfcf/68747470733a2f2f756f66692e626f782e636f6d2f7368617265642f7374617469632f32306379396b6a69333939307079326a77753475776964686f337768326b65302e6a7067
 
 Only the "_HR" High resolution images in the "image_SRF_2" directory was used.
 
-## Approaches
-* Center, average, then decenter
-* Convolution
-* PCA
-* ICA
-* Neural networks (autoencoders?)
-    * REDNet
-    * MWCNN
-    * PRIDNet
-* Other decomposition techniques?
-
-## Tools
-* Image Noise generator: https://en.wikipedia.org/wiki/Image_noise
-    * AWGN: Additive white gausian noise
-    * Salt & pepper noise
-    * Multiplicative noise
-    * https://stackoverflow.com/questions/22937589/how-to-add-noise-gaussian-salt-and-pepper-etc-to-image-in-python-with-opencv
-    * https://scikit-image.org/docs/stable/api/skimage.util.html#random-noise
-    * https://theailearner.com/2019/05/07/add-different-noise-to-an-image/  
-* Image sample generator
-
-## Loss metrics
-OpenCV lists 5 different Image Quality Assessment (IQA) algorithms.
-    * [BRISQUE](https://learnopencv.com/image-quality-assessment-brisque/): Blind/Referenceless Image Spatial Quality Evaluator
-    * [GMSD](http://www4.comp.polyu.edu.hk/~cslzhang/IQA/GMSD/GMSD.htm): Gradient Magnitude Similarity Deviation: A Highly Efficient Perceptual Image Quality Index
-    * [MSE](https://en.wikipedia.org/wiki/Mean_squared_error): Mean Squared Error
-    * [PSNR](https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio): Peak Signal to Noise Ratio
-    * [SSIM](https://en.wikipedia.org/wiki/Structural_similarity): structural similarity index measure
-
-GMSD and SSIM are metrics aimed at measuring the perceptual quality of images, while MSE and PSNR estimates absolute errors.
-I will primarily use MSE and SSIM in evaluating results as those are the most popular metrics for image quality.
-The built in QualityMSE and QualitySSIM classes from the opencv-python library will be utilised.
-
-## Noise functions
-skimage.util.noise methods will be used to generate the noisy images.
-
-## Possible questions
-* How do you measure noise in image? What metric?
-* How does this compare with traditional denoising techniques where you don't have multiple copies?
-## Associated terms
+## Useful and interesting resources
+* [Wikipedia - Noise reduction](https://en.wikipedia.org/wiki/Noise_reduction#Removal)
+* [Wikipedia - Image fusion](https://en.wikipedia.org/wiki/Image_fusion)
 * [Brief review of image denoising techniques](https://vciba.springeropen.com/articles/10.1186/s42492-019-0016-7)
-* [Denoising](https://www.iosrjournals.org/iosr-jece/papers/Vol.%2011%20Issue%201/Version-1/L011117884.pdf)
-* [Noise in Digital Image Processing](https://medium.com/image-vision/noise-in-digital-image-processing-55357c9fab71)
-* [Cross correlation](https://en.wikipedia.org/wiki/Cross-correlation)
-* [Convolutional autoencoder for image denoising](https://keras.io/examples/vision/autoencoder/)
-* [Denoising filtering techniques in findpeaks library](https://erdogant.github.io/findpeaks/pages/html/Denoise.html)
-* [Image Denoising](https://docs.opencv.org/3.4/d5/d69/tutorial_py_non_local_means.html)
-* [Smoothing Images](https://docs.opencv.org/3.4/d4/d13/tutorial_py_filtering.html)
+* [Image Denoising Techniques-An Overview](https://www.iosrjournals.org/iosr-jece/papers/Vol.%2011%20Issue%201/Version-1/L011117884.pdf)
+* [OpenCV tutorial - image smoothing](https://docs.opencv.org/3.4/d4/d13/tutorial_py_filtering.html)
+* [OpenCV tutorial - image denoising](https://docs.opencv.org/3.4/d5/d69/tutorial_py_non_local_means.html)
+* [Deep Image Prior](https://dmitryulyanov.github.io/deep_image_prior)
+* [TF/Keras implementation of Deep Image Prior](https://github.com/satoshi-kosugi/DeepImagePrior)
 * [Image denoising using deep learning](https://towardsai.net/p/deep-learning/image-de-noising-using-deep-learning)
-* [Noise reduction](https://en.wikipedia.org/wiki/Noise_reduction#Removal)
-
-## Research papers
-* [Neighbor2Neighbor: Self-Supervised Denoising from Single Noisy Images](https://arxiv.org/pdf/2101.02824.pdf)
-* [Image denoising by sparse 3D transform-domain collaborative ltering](https://webpages.tuni.fi/foi/GCF-BM3D/BM3D_TIP_2007.pdf)
-* [Weighted nuclear norm minimization with application to image denoising](https://www4.comp.polyu.edu.hk/~cslzhang/paper/WNNM.pdf)
-
-
-## Tasks
-- [x] Raw image dataset
-- [x] Generate noise functions
-- [x] Create noisy images
-- [x] Choose SNR / loss metric
-- [x] Implement loss metric function
-- [x] Calculate baseline loss metric scores: ground truth vs noisy copies
-- [x] Add PSNR metric
-- [x] Test FastNL denoising with multiple copies
-- [ ] Implement NNs
-- [ ] Attempt LDA (useful for discrete data) on the assumption that pixels are discrete.
-- [ ] Analyse distribution of lumenence and color data between true and noisy samples
-- [ ] 
-- [ ] 
-
-## Project Structure
-- [ ] Explain noise and properties
-- [ ] Describe the data (distribution, and stats): truth vs noisy; lumenense vs color
-- [ ] Approaches/Experiments
-- [ ] Decomposition
-- [ ] Filtering
-- [ ] NN
-- [ ] Comparison of results
-- [ ] 
-
-
-## Stretch goals:
-- [ ] Dockerize
-- [ ] Terraform deploy
-- [ ] 
-
-
+* [Convolutional autoencoder for image denoising](https://keras.io/examples/vision/autoencoder/)
+* [findpeaks library - denoising](https://erdogant.github.io/findpeaks/pages/html/Denoise.html)
+* [Cross correlation](https://en.wikipedia.org/wiki/Cross-correlation)
